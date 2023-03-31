@@ -5,32 +5,44 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-
 int main() {
-    std::string message = "Hello, world!\n";
-    std::cout << message; // print the message to the console
+    constexpr std::string_view testMessage = "Hello, world!\n";
 
-    pid_t pid = fork(); // create a child process
-    if (pid == -1) { // check if fork() failed
+    // Create a child process
+    pid_t pid = fork();
+
+    // Check if fork() failed
+    if (pid == EXIT_FAILURE) {
         std::cerr << "fork() failed!\n";
         return EXIT_FAILURE;
-    } else if (pid == 0) { // child process
-        long result = syscall(SYS_write, 1, message.c_str(), message.length()); // check if the message was printed
-        if (result == -1) { // check if syscall() failed
+    }
+
+    // Child process
+    if (pid == EXIT_SUCCESS) {
+        // Print the testMessage using a system call
+        long result = syscall(SYS_write, 1, testMessage.data(), testMessage.length());
+
+        // Check if the testMessage was printed
+        if (result == EXIT_FAILURE) {
             std::cerr << "syscall() failed!\n";
             return EXIT_FAILURE;
-        } else {
-            return EXIT_SUCCESS;
         }
-    } else { // parent process
+    }
+        // Parent process
+    else {
         int status;
-        waitpid(pid, &status, 0); // wait for the child process to finish
+
+        // Wait for the child process to finish
+        waitpid(pid, &status, 0);
+
+        // Check if the testMessage was printed
         if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
             std::cout << "Message was printed to the console!\n";
         } else {
             std::cerr << "Message was not printed to the console!\n";
+            return EXIT_FAILURE;
         }
     }
 
-    return 0;
+    return EXIT_SUCCESS;
 }
