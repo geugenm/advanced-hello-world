@@ -10,6 +10,10 @@ add_executable(test.cout.ostringstream
         test_cout_ostringstream.cxx
         )
 
+add_executable(test.src
+        test_src.cxx
+        )
+
 # Use CTest to run the tests
 enable_testing()
 
@@ -17,3 +21,5 @@ enable_testing()
 add_test(NAME CoutTest COMMAND test.cout coutTest)
 
 add_test(NAME CoutRedirectionTest COMMAND test.cout.ostringstream coutRedirectionTest)
+
+add_test(NAME SrcTest COMMAND test.src srcTest)

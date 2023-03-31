@@ -14,12 +14,12 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif ()
 
-enable_testing()
-add_subdirectory(test)
-
 # Add subdirectories for each component of the project
 add_subdirectory(src)
 add_subdirectory(lib)
+
+enable_testing()
+add_subdirectory(test)
 
 add_custom_target(build-all
         COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}

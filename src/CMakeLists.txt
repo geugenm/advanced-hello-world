@@ -19,5 +19,7 @@ set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 # Enable warnings and treat them as errors
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 
+include_directories(${PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/)
+
 # Add the executable
 add_executable(${PROJECT_NAME} main.cxx)
