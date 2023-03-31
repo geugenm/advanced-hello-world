@@ -1,11 +1,19 @@
-# CMakeLists.txt file for the test directory
+# Set the minimum required version of CMake
+cmake_minimum_required(VERSION 3.5)
 
 # Define the test executable and list all the source files with main functions
-add_executable(advanced.tests wow.cpp test_cout.cxx)
+add_executable(test.cout
+        test_cout.cxx
+        )
+
+add_executable(test.cout.ostringstream
+        test_cout_ostringstream.cxx
+        )
 
 # Use CTest to run the tests
 enable_testing()
 
 # Add all the source files with main functions as tests
-add_test(NAME CoutTest COMMAND advanced.tests coutTest)
-add_test(NAME CoutRedirectionTest COMMAND advanced.tests coutRedirectionTest)
+add_test(NAME CoutTest COMMAND test.cout coutTest)
+
+add_test(NAME CoutRedirectionTest COMMAND test.cout.ostringstream coutRedirectionTest)
