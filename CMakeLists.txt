@@ -14,10 +14,8 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif ()
 
-if (CMAKE_BUILD_TYPE STREQUAL "Tests")
-    enable_testing()
-    add_subdirectory(test)
-endif ()
+enable_testing()
+add_subdirectory(test)
 
 # Add subdirectories for each component of the project
 add_subdirectory(src)

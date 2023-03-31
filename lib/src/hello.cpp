@@ -1,7 +1,7 @@
-#include <iostream>
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
+#include "hello.hpp"
 
 namespace myapp {
 
