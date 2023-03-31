@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.5.0)
 
 # Get the version from git tags
 execute_process(
@@ -37,12 +37,14 @@ endif ()
 set(CMAKE_CXX_FLAGS_DEBUG "-g -O0 -Wall -Wextra -Wpedantic")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native")
 
-# Add include directories
-include_directories(${PROJECT_SOURCE_DIR}/include)
-
 # Add subdirectories for each component of the project
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(lib)
+
+add_custom_target(build-all
+        COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
+        )
 
 # Check for C++17 support
 include(CheckCXXCompilerFlag)
