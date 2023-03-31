@@ -1,53 +1,38 @@
-# Set the source files for the library or executable target
-set(SOURCES
-        main.cpp
-        )
+cmake_minimum_required(VERSION 3.12)
 
+# Set the project name and version
+project(advanced.source VERSION 1.0.0 LANGUAGES CXX)
 
-# Define a library target using the source files
-add_library(MyLibrary ${SOURCES})
+# Set C++ standard to C++17
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
 
-# Set the include directories for the library target
-target_include_directories(MyLibrary PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        # Add any additional include directories here as needed
-        )
+# Check for C++17 support
+include(CheckCXXCompilerFlag)
+CHECK_CXX_COMPILER_FLAG("-std=c++17" COMPILER_SUPPORTS_CXX17)
+if (COMPILER_SUPPORTS_CXX17)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
+else ()
+    message(FATAL_ERROR "The compiler ${CMAKE_CXX_COMPILER} has no C++17 support. Please use a different C++ compiler.")
+endif ()
 
-# Set any compile definitions for the library target
-target_compile_definitions(MyLibrary PRIVATE
-        MY_DEFINE_1
-        MY_DEFINE_2
-        # Add any additional compile definitions here as needed
-        )
+# Set build type to Release if not specified
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Release)
+endif()
 
-# Set any compile options for the library target
-target_compile_options(MyLibrary PRIVATE
-        -Wall
-        -Wextra
-        # Add any additional compile options here as needed
-        )
+# Add options for build type-specific flags
+set(CMAKE_CXX_FLAGS_DEBUG "-g")
+set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+# Enable warnings and treat them as errors
+add_compile_options(-Wall -Wextra -pedantic -Werror)
 
+# Add the executable
+add_executable(sources main.cxx)
 
-# Define an executable target using the source files
-add_executable(MyExecutable main.cpp ${SOURCES})
+# Enable CTest testing
+enable_testing()
 
-# Set the include directories for the executable target
-target_include_directories(MyExecutable PUBLIC
-        ${CMAKE_CURRENT_SOURCE_DIR}/include
-        # Add any additional include directories here as needed
-        )
-
-# Set any compile definitions for the executable target
-target_compile_definitions(MyExecutable PRIVATE
-        MY_DEFINE_1
-        MY_DEFINE_2
-        # Add any additional compile definitions here as needed
-        )
-
-# Set any compile options for the executable target
-target_compile_options(MyExecutable PRIVATE
-        -Wall
-        -Wextra
-        # Add any additional compile options here as needed
-        )
+# Add tests
+add_test(NAME TestMain COMMAND sources)
