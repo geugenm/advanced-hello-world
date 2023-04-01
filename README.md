@@ -16,3 +16,28 @@ cd build
 cmake ..
 make
 ./hello_world
+```
+
+This will build the program and run it, printing "Hello, world!" to the console.
+
+## Testing
+
+This repository also includes CTest for testing the program. To run the tests, navigate to the build directory and run the following command:
+
+```bash 
+make test
+```
+
+This will run the tests and output the results to the console.
+
+## Contributing
+
+If you would like to contribute to this project, feel free to fork the repository and submit a pull request with your changes. Contributions are always welcome, whether it's an improvement to the existing program or a new program in a different language.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+Thanks to the developers of CMake and CTest for providing the tools necessary to build and test this program. Also, thanks to the open-source community for providing resources and support for C++ development.
