@@ -18,8 +18,12 @@ endif ()
 add_subdirectory(src)
 add_subdirectory(lib)
 
-enable_testing()
-add_subdirectory(test)
+# Add tests
+option(BUILD_TESTS "Build tests" ON)
+if (BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(test)
+endif ()
 
 add_custom_target(build-all
         COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
