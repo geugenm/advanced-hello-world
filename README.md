@@ -1,14 +1,23 @@
 <h1 align="center">Advanced Hello World</h1>
 
-<div align="center">
-
-[![Neovim Minimum Version](https://img.shields.io/badge/cpp-%3E%3D17-informational?style=for-the-badge&logo=cplusplus)](https://en.cppreference.com/w/cpp/17)
-[![GitHub Issues](https://img.shields.io/github/issues-raw/geugenm/advanced-hello-world?style=for-the-badge)](https://github.com/geugenm/advanced-hello-world/issues)
-![](https://img.shields.io/badge/platform-linux%20|%20windows-informational?style=for-the-badge&logo=appveyor)
-
+<div align="center" style="text-align: center;">
+  <div>
+    <a href="https://github.com/geugenm/advanced-hello-world/issues">
+      <img src="https://img.shields.io/github/issues-raw/geugenm/advanced-hello-world?style=for-the-badge" alt="GitHub Issues">
+    </a>
+    <img src="https://img.shields.io/badge/platform-linux%20|%20windows-informational?style=for-the-badge&amp;logo=appveyor" alt="Platforms">
+    <a href="https://en.cppreference.com/w/cpp/17">
+      <img src="https://img.shields.io/badge/cpp-17-informational?style=for-the-badge&amp;logo=cplusplus" alt="CPP version">
+    </a>
   </div>
+  <div>
+    <p>Item 1</p>
+    <p>Item 2</p>
+  </div>
+</div>
 
-# Advanced Hello World in C++
+
+
 
 Welcome to the Advanced Hello World repository! This is a simple project written in C++ that demonstrates the use of
 CMake libraries and CTest for testing.
