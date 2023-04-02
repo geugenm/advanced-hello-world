@@ -11,8 +11,9 @@
     </a>
   </div>
   <div>
-    <p>Item 1</p>
-    <p>Item 2</p>
+    <a href="https://github.com/geugenm/advanced-hello-world/actions/workflows/ubuntu-latest.yml">
+        <img src="https://img.shields.io/github/actions/workflow/status/geugenm/advanced-hello-world/ubuntu-latest.yml?logo=ubuntu&style=for-the-badge" alt="Build status on ubuntu">
+    </a>
   </div>
 </div>
 
