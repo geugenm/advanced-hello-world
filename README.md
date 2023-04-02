@@ -5,7 +5,7 @@
     <a href="https://github.com/geugenm/advanced-hello-world/issues">
       <img src="https://img.shields.io/github/issues-raw/geugenm/advanced-hello-world?style=for-the-badge" alt="GitHub Issues">
     </a>
-    <img src="https://img.shields.io/badge/platform-linux%20|%20windows-informational?style=for-the-badge&amp;logo=appveyor" alt="Platforms">
+    <img src="https://img.shields.io/badge/platform-linux%20-informational?style=for-the-badge&amp;logo=appveyor" alt="Platforms">
     <a href="https://en.cppreference.com/w/cpp/17">
       <img src="https://img.shields.io/badge/cpp-17-informational?style=for-the-badge&amp;logo=cplusplus" alt="CPP version">
     </a>
