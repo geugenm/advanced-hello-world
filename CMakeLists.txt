@@ -1,13 +1,13 @@
 cmake_minimum_required(VERSION 3.15)
 
 include(cmake/get_github_release_version.cmake)
-include(cmake/check_platform.cmake)
+include(cmake/check_platfrom.cmake)
 
 # Set the project version
 project(advanced VERSION ${GITHUB_VERSION} LANGUAGES CXX)
 
-include(cmake/configure.cmake)
-include(cmake/cleaner.cmake)
+include(cmake/configure_compiler.cmake)
+include(cmake/code_quality.cmake)
 
 # Set build type to Release if not specified
 if (NOT CMAKE_BUILD_TYPE)
