@@ -17,8 +17,8 @@ set(SOURCE_DIRS
 foreach(dir ${SOURCE_DIRS})
     # Define the test executables and their source files for each directory
     set(TESTS
-            cout-redirection
-            cout-system
+            cout_redirection
+            cout_system
             main
             )
 
@@ -48,5 +48,28 @@ foreach(dir ${SOURCE_DIRS})
 
         # Add test
         add_test(NAME ${test}Test COMMAND ${test})
-    endforeach()
-endforeach()
+    endforeach ()
+endforeach ()
+
+
+# Define libraries to link
+set(LIBRARIES
+        advanced.library.static
+        advanced.library.dynamic
+        )
+
+# Define the test target
+add_executable(
+        library_integration.cpp
+)
+
+# Loop over the libraries and link each one
+foreach (LIBRARY ${LIBRARIES})
+    target_link_libraries(test_mylibrary ${LIBRARY})
+endforeach ()
+
+# Set include directories for the test target
+target_include_directories(test_mylibrary PUBLIC ${PROJECT_DIR}/lib/include/)
+
+# Add test
+add_test(NAME test_mylibrary COMMAND test_mylibrary)
