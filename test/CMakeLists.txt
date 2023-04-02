@@ -1,6 +1,6 @@
 # Set the minimum required version of CMake and project name
 cmake_minimum_required(VERSION 3.5.0)
-project(MyProject VERSION 1.0.0 LANGUAGES CXX)
+project(AdvancedTests VERSION 1.0.0 LANGUAGES CXX)
 
 # Enable CTest to run tests
 include(CTest)
@@ -59,17 +59,17 @@ set(LIBRARIES
         )
 
 # Define the test target
-add_executable(
+add_executable(LibraryTest
         library_integration.cpp
-)
+        )
 
 # Loop over the libraries and link each one
 foreach (LIBRARY ${LIBRARIES})
-    target_link_libraries(test_mylibrary ${LIBRARY})
+    target_link_libraries(LibraryTest ${LIBRARY})
 endforeach ()
 
 # Set include directories for the test target
-target_include_directories(test_mylibrary PUBLIC ${PROJECT_DIR}/lib/include/)
+target_include_directories(LibraryTest PUBLIC ${PROJECT_DIR}/lib/include/)
 
 # Add test
-add_test(NAME test_mylibrary COMMAND test_mylibrary)
+add_test(NAME test_HelloLibrary COMMAND LibraryTest)
