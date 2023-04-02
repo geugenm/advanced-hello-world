@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.15)
 
 include(cmake/get_github_release_version.cmake)
-include(cmake/check_platfrom.cmake)
+include(cmake/check_platform.cmake)
 
 # Set the project version
 project(advanced VERSION ${GITHUB_VERSION} LANGUAGES CXX)
