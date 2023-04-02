@@ -1,33 +1,45 @@
 #include <iostream>
-#include <sstream>
-#include <string>
-
-#define HELLO_WORLD_MSG "Hello, World!"
-
-void printHelloWorld() {
-    std::cout << HELLO_WORLD_MSG << std::endl;
-}
+#include <fstream>
 
 int main() {
-    // Redirect cout to a string buffer
-    std::stringstream buffer;
-    std::streambuf* oldCoutBuffer = std::cout.rdbuf(buffer.rdbuf());
+    const std::string fileName = "output.txt";
 
-    // Call the external function to print the message
-    printHelloWorld();
-
-    if (std::cout.bad()) {
-        std::cerr << "std::cout is bad";
+    // Try to open the file for writing
+    std::ofstream file(fileName);
+    if (!file.is_open()) {
+        std::cerr << "Error opening file for writing!\n";
         return EXIT_FAILURE;
     }
 
-    // Restore cout to its original buffer
-    std::cout.rdbuf(oldCoutBuffer);
+    // Save the original streambuf and redirect the output to the file
+    std::streambuf *originalStreambuf = std::cout.rdbuf();
+    std::cout.rdbuf(file.rdbuf());
 
-    // Check if the buffer contains the expected message
-    std::string consoleOutput = buffer.str();
-    if (consoleOutput.find(HELLO_WORLD_MSG) == std::string::npos) {
-        std::cerr << "Error: failed to print \"" << HELLO_WORLD_MSG << "\" to the console" << std::endl;
+    // Write to std::cout, which will now write to the file
+    std::cout << "Hello, world!\n";
+
+    // Restore the original streambuf and close the file
+    std::cout.rdbuf(originalStreambuf);
+    file.close();
+
+    // Try to read from the file to make sure it was redirected properly
+    std::ifstream inFile(fileName);
+    if (!inFile.is_open()) {
+        std::cerr << "Error opening file for reading!\n";
+        return EXIT_FAILURE;
+    }
+
+    std::string line;
+    std::getline(inFile, line);
+    if (line != "Hello, world!") {
+        std::cerr << "Error: output was not redirected to file properly!\n";
+        return EXIT_FAILURE;
+    }
+
+    // Delete the file and exit successfully
+    inFile.close();
+    if (remove(fileName.c_str()) != EXIT_SUCCESS) {
+        std::cerr << "Error deleting file!\n";
         return EXIT_FAILURE;
     }
 
