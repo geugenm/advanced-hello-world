@@ -1,28 +1,12 @@
 #include <iostream>
-#include <string>
-
-#if defined(_WIN32)
-#include <windows.h>
-#else
-
 #include <unistd.h>
+#include <sys/syscall.h>
 #include <sys/wait.h>
-
-#endif
 
 int main() {
     constexpr std::string_view testMessage = "Hello, world!\n";
 
     // Create a child process
-#if defined(_WIN32)
-    STARTUPINFO startupInfo = {0};
-    PROCESS_INFORMATION processInfo = {0};
-    if (!CreateProcess(nullptr, const_cast<char*>(testMessage.data()), nullptr, nullptr, FALSE, 0, nullptr, nullptr, &startupInfo, &processInfo)) {
-        std::cerr << "CreateProcess() failed!\n";
-        return EXIT_FAILURE;
-    }
-    WaitForSingleObject(processInfo.hProcess, INFINITE);
-#else
     pid_t pid = fork();
 
     // Check if fork() failed
@@ -34,39 +18,29 @@ int main() {
     // Child process
     if (pid == EXIT_SUCCESS) {
         // Print the testMessage using a system call
-        const ssize_t result = write(STDOUT_FILENO, testMessage.data(), testMessage.length());
+        long result = syscall(SYS_write, 1, testMessage.data(), testMessage.length());
 
         // Check if the testMessage was printed
         if (result == EXIT_FAILURE) {
-            std::cerr << "write() failed!\n";
-            return EXIT_FAILURE;
-        }
-    } else {
-        int status;
-
-        // Wait for the child process to finish
-        if (waitpid(pid, &status, 0) == EXIT_FAILURE) {
-            std::cerr << "waitpid() failed!\n";
-            return EXIT_FAILURE;
-        }
-
-        // Check if the child process terminated normally
-        if (WIFEXITED(status)) {
-            // Get the exit status of the child process
-            const int exitStatus = WEXITSTATUS(status);
-
-            if (exitStatus == EXIT_SUCCESS) {
-                std::cout << "Message was printed to the console!\n";
-            } else {
-                std::cerr << "Child process exited with status " << exitStatus << '\n';
-                return EXIT_FAILURE;
-            }
-        } else {
-            std::cerr << "Child process did not terminate normally!\n";
+            std::cerr << "syscall() failed!\n";
             return EXIT_FAILURE;
         }
     }
-#endif
+        // Parent process
+    else {
+        int status;
+
+        // Wait for the child process to finish
+        waitpid(pid, &status, 0);
+
+        // Check if the testMessage was printed
+        if (WIFEXITED(status) && WEXITSTATUS(status) == 0) {
+            std::cout << "Message was printed to the console!\n";
+        } else {
+            std::cerr << "Message was not printed to the console!\n";
+            return EXIT_FAILURE;
+        }
+    }
 
     return EXIT_SUCCESS;
 }
