@@ -35,6 +35,4 @@ jobs:
         working-directory: ${{github.workspace}}\build
         # Execute tests defined by the CMake configuration.
         # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-        run: |
-          ctest -C ${{env.BUILD_TYPE}}
-          if [ $? -eq 0 ]; then exit 1; else exit 0; fi
+        run: ctest -C ${{env.BUILD_TYPE}}
