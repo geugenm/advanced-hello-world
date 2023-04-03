@@ -1,5 +1,5 @@
+# Set the minimum required version of CMake and project name
 cmake_minimum_required(VERSION 3.5.0)
-
 project(AdvancedTests VERSION 1.0.0 LANGUAGES CXX)
 
 # Enable CTest to run tests
@@ -14,27 +14,27 @@ set(SOURCE_DIRS
         src
         )
 
-# Define the test executables and their source files for each directory
-set(TESTS
-        cout_redirection
-        cout_system
-        main
-        )
+foreach(dir ${SOURCE_DIRS})
+    # Define the test executables and their source files for each directory
+    set(TESTS
+            cout_redirection
+            cout_system
+            main
+            )
 
-foreach (dir ${SOURCE_DIRS})
-    foreach (test ${TESTS})
+    foreach(test ${TESTS})
         # Check if source file exists in the tests directory
         set(test_source ${CMAKE_CURRENT_SOURCE_DIR}/${test}.cxx)
-        if (NOT EXISTS ${test_source})
+        if(NOT EXISTS ${test_source})
             # If source file doesn't exist in tests directory, search the directory
             set(test_source ${PROJECT_DIR}/${dir}/${test}.cxx)
-            if (NOT EXISTS ${test_source})
+            if(NOT EXISTS ${test_source})
                 message(FATAL_ERROR "Could not find source file for ${test} test in directory ${dir}")
-            else ()
+            else()
                 # If source file is in directory, add directory name to test executable and test name
                 set(test "${dir}_${test}")
-            endif ()
-        endif ()
+            endif()
+        endif()
 
         # Add the test executable
         add_executable(${test} ${test_source})
@@ -52,25 +52,24 @@ foreach (dir ${SOURCE_DIRS})
 endforeach ()
 
 
-# Define the libraries to test and their types (static or dynamic)
+# Define libraries to link
 set(LIBRARIES
         advanced.library.static
         advanced.library.dynamic
         )
 
+# Define the test target
+add_executable(LibraryTest
+        library_integration.cpp
+        )
+
 # Loop over the libraries and link each one
 foreach (LIBRARY ${LIBRARIES})
-    # Define the test target
-    add_executable(${LIBRARY}Test
-            library_integration.cpp
-            )
-    # Add the library and set its type
-    target_link_libraries(${LIBRARY}Test ${LIBRARY_TYPE} ${LIBRARY})
-
-    # Set include directories for the library
-    target_include_directories(${LIBRARY_TYPE} ${LIBRARY} PUBLIC ${PROJECT_DIR}/lib/include/)
-
-    # Add test
-    add_test(NAME test_${LIBRARY} COMMAND LibraryTest)
+    target_link_libraries(LibraryTest ${LIBRARY})
 endforeach ()
 
+# Set include directories for the test target
+target_include_directories(LibraryTest PUBLIC ${PROJECT_DIR}/lib/include/)
+
+# Add test
+add_test(NAME test_HelloLibrary COMMAND LibraryTest)

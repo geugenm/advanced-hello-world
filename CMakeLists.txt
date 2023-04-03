@@ -1,19 +1,13 @@
 cmake_minimum_required(VERSION 3.5.0)
 
-# Include custom modules
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-
-# Check platform compatibility
-include(check_platform)
+include(cmake/get_github_release_version.cmake)
+include(cmake/check_platform.cmake)
 
 # Set the project version
-project(advanced VERSION 1.0.0 LANGUAGES CXX)
+project(advanced VERSION ${GITHUB_VERSION} LANGUAGES CXX)
 
-# Configure the compiler
-include(configure_compiler)
-
-# Ensure high code quality standards
-include(code_quality)
+include(cmake/configure_compiler.cmake)
+include(cmake/code_quality.cmake)
 
 # Set build type to Release if not specified
 if (NOT CMAKE_BUILD_TYPE)
@@ -31,5 +25,7 @@ if (BUILD_TESTS)
     add_subdirectory(test)
 endif ()
 
-# Custom target to build everything
-add_custom_target(build-all COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR})
+add_custom_target(build-all
+        COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR}
+        )
+
