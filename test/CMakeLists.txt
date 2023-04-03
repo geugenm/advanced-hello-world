@@ -14,27 +14,27 @@ set(SOURCE_DIRS
         src
         )
 
-foreach(dir ${SOURCE_DIRS})
-    # Define the test executables and their source files for each directory
-    set(TESTS
-            cout_redirection
-            cout_system
-            main
-            )
+# Define the test executables and their source files for each directory
+set(TESTS
+        cout_redirection
+        cout_system
+        main
+        )
 
-    foreach(test ${TESTS})
+foreach (dir ${SOURCE_DIRS})
+    foreach (test ${TESTS})
         # Check if source file exists in the tests directory
         set(test_source ${CMAKE_CURRENT_SOURCE_DIR}/${test}.cxx)
-        if(NOT EXISTS ${test_source})
+        if (NOT EXISTS ${test_source})
             # If source file doesn't exist in tests directory, search the directory
             set(test_source ${PROJECT_DIR}/${dir}/${test}.cxx)
-            if(NOT EXISTS ${test_source})
+            if (NOT EXISTS ${test_source})
                 message(FATAL_ERROR "Could not find source file for ${test} test in directory ${dir}")
-            else()
+            else ()
                 # If source file is in directory, add directory name to test executable and test name
                 set(test "${dir}_${test}")
-            endif()
-        endif()
+            endif ()
+        endif ()
 
         # Add the test executable
         add_executable(${test} ${test_source})
@@ -52,24 +52,31 @@ foreach(dir ${SOURCE_DIRS})
 endforeach ()
 
 
-# Define libraries to link
-set(LIBRARIES
+# Loop over the libraries and link each one
+function(add_library_tests LIBRARIES LIBRARY_TYPE)
+    foreach (LIBRARY ${LIBRARIES})
+        set(TARGET_NAME ${LIBRARY}Test)
+
+        add_executable(${TARGET_NAME}
+                library_integration.cpp
+                )
+        target_link_libraries(${TARGET_NAME} PUBLIC ${LIBRARY})
+
+        target_include_directories(${TARGET_NAME} PUBLIC ${PROJECT_DIR}/lib/include/)
+
+        add_test(NAME lib_${TARGET_NAME} COMMAND ${TARGET_NAME})
+    endforeach ()
+endfunction()
+
+# Define the libraries to test and their types (static or dynamic)
+set(STATIC_LIBRARIES
         advanced.library.static
+        )
+
+set(SHARED_LIBRARIES
         advanced.library.dynamic
         )
 
-# Define the test target
-add_executable(LibraryTest
-        library_integration.cpp
-        )
-
 # Loop over the libraries and link each one
-foreach (LIBRARY ${LIBRARIES})
-    target_link_libraries(LibraryTest ${LIBRARY})
-endforeach ()
-
-# Set include directories for the test target
-target_include_directories(LibraryTest PUBLIC ${PROJECT_DIR}/lib/include/)
-
-# Add test
-add_test(NAME test_HelloLibrary COMMAND LibraryTest)
+add_library_tests(${STATIC_LIBRARIES} STATIC)
+add_library_tests(${SHARED_LIBRARIES} SHARED)
