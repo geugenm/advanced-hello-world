@@ -58,7 +58,7 @@ function(add_library_tests LIBRARIES LIBRARY_TYPE)
         set(TARGET_NAME ${LIBRARY}Test)
 
         add_executable(${TARGET_NAME}
-                library_integration.cpp
+                library_integration.cxx
                 )
         target_link_libraries(${TARGET_NAME} PUBLIC ${LIBRARY})
 

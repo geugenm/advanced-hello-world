@@ -7,7 +7,7 @@ project(advanced.library LANGUAGES CXX)
 # Define static library target
 set(STATIC_NAME ${PROJECT_NAME}.static)
 add_library(${STATIC_NAME} STATIC
-        src/hello.cpp
+        src/hello.cxx
         )
 target_include_directories(${STATIC_NAME}
         PRIVATE
@@ -17,7 +17,7 @@ target_include_directories(${STATIC_NAME}
 # Define dynamic library target
 set(DYNAMIC_NAME ${PROJECT_NAME}.dynamic)
 add_library(${DYNAMIC_NAME} SHARED
-        src/hello.cpp
+        src/hello.cxx
         )
 target_include_directories(${DYNAMIC_NAME}
         PRIVATE
