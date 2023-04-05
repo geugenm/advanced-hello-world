@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include "hello.hpp"
+#include "hello.hxx"
 
 void HelloWorld::print_hello_world() {
     std::size_t written = std::fwrite(kHelloWorld, sizeof(char), kHelloWorldLen, stdout);
